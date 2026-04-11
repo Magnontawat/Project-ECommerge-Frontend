@@ -3,6 +3,8 @@ import { ChevronLeft, ChevronRight, LayoutGrid, List } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { useHorizontalScroll } from '../hooks/useHorizontalScroll';
 import { NEW_ARRIVALS, WEEKLY_EDIT_MAIN, WEEKLY_EDIT_GRID, SUGGESTED_PRODUCTS } from '../data/mock';
+import HeroBanner from '../components/HeroBanner';
+import { useLatestProducts } from '../hooks/useLatestProducts';
 
 const CATEGORIES = [
   { name: 'ELECTRONICS', icon: '💻' },
@@ -15,47 +17,13 @@ const CATEGORIES = [
 
 export default function HomePage() {
   const { scrollRef, scrollLeft, scrollRight } = useHorizontalScroll(350);
+  const { products: heroProducts, loading: heroLoading } = useLatestProducts(5);
 
   return (
     <main className="max-w-7xl mx-auto px-12 mt-8 flex flex-col gap-16 w-full">
-      {/* Hero Banner */}
-      <div className="relative w-full h-[500px] rounded-[32px] overflow-hidden shadow-lg bg-[#0A1128] flex items-center">
-        <div className="relative z-10 w-full lg:w-1/2 p-16 flex flex-col justify-center text-white pb-10">
-          <span className="bg-white/10 border border-white/20 backdrop-blur-sm px-3 py-1 text-[10px] uppercase font-bold tracking-widest rounded-full w-max mb-6 text-gray-300">Featured Collection</span>
-          <h2 className="text-6xl font-extrabold leading-[1.1] mb-6 tracking-tight text-white">Redefining Digital <br />Aesthetics</h2>
-          <p className="text-base text-gray-300 mb-8 max-w-md leading-relaxed font-medium">
-            Experience the intersection of high performance and curated design with our new Summer 2024 tech gallery.
-          </p>
-          <div className="flex gap-4">
-            <button className="bg-[#1D4ED8] text-white font-bold py-3.5 px-8 shadow-lg hover:scale-105 hover:bg-blue-600 transition-all text-sm rounded-xl">Explore Now</button>
-            <button className="bg-transparent border-2 border-white/20 text-white font-bold py-3.5 px-8 hover:bg-white/10 hover:border-white/40 transition-colors text-sm rounded-xl">View Lookbook</button>
-          </div>
-        </div>
 
-        <div className="absolute right-0 top-0 bottom-0 w-1/2 flex items-center justify-end pr-16 bg-gradient-to-l from-transparent via-[#0A1128]/40 to-[#0A1128]">
-          <div className="relative w-[500px] h-full flex flex-col items-center justify-center pt-8">
-            <img
-              src="https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?w=800&q=80"
-              alt="Promoted Tech Item"
-              className="w-full object-contain mix-blend-screen opacity-90 drop-shadow-2xl hover:scale-105 transition-transform duration-700"
-            />
-            <div className="absolute bottom-16 right-0 bg-white/10 backdrop-blur-md border border-white/20 text-white p-4 rounded-2xl shadow-xl max-w-[200px] hidden lg:block">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
-                <span className="text-[10px] font-bold tracking-widest uppercase">Now Available</span>
-              </div>
-              <div className="text-sm font-bold">Studio Master Display</div>
-              <div className="text-xs text-gray-300">$1,299.00</div>
-            </div>
-          </div>
-        </div>
-
-        <div className="absolute right-8 bottom-8 flex gap-2 z-10">
-          <div className="w-6 h-1.5 bg-white rounded-full cursor-pointer"></div>
-          <div className="w-1.5 h-1.5 bg-white/40 rounded-full cursor-pointer hover:bg-white/60"></div>
-          <div className="w-1.5 h-1.5 bg-white/40 rounded-full cursor-pointer hover:bg-white/60"></div>
-        </div>
-      </div>
+      {/* Hero Banner — 5 สินค้าล่าสุด (จัดการโดย HeroBanner component) */}
+      <HeroBanner products={heroProducts} loading={heroLoading} />
 
 
       {/* Categories Section */}
