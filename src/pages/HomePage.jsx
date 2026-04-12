@@ -80,7 +80,7 @@ export default function HomePage() {
               </div>
               <div className="text-[9px] text-[#64748B] font-bold tracking-widest uppercase mb-1">{item.category}</div>
               <div className="text-sm font-bold text-[#0F172A] mb-1 group-hover:text-[#1D4ED8] transition-colors leading-tight">{item.name}</div>
-              <div className="text-xs font-bold text-[#1D4ED8]">${item.price.toFixed(2)}</div>
+              <div className="text-xs font-bold text-[#1D4ED8]">฿{item.price.toFixed(2)}</div>
             </div>
           ))}
         </div>
@@ -116,7 +116,7 @@ export default function HomePage() {
                 {WEEKLY_EDIT_MAIN.badge}
               </span>
               <span className="bg-white/90 backdrop-blur-sm text-gray-900 text-[10px] font-bold px-3 py-1.5 rounded-full w-max mt-1">
-                ${WEEKLY_EDIT_MAIN.price.toFixed(2)}
+                ฿{WEEKLY_EDIT_MAIN.price.toFixed(2)}
               </span>
             </div>
 

@@ -10,6 +10,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
  *
  * @param {{ products: Array, loading?: boolean }} props
  */
+
 export default function HeroBanner({ products = [], loading = false }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -103,17 +104,13 @@ export default function HeroBanner({ products = [], loading = false }) {
 
               <p className="font-bold text-[#60A5FA] mb-6
                             text-lg sm:text-xl lg:text-2xl">
-                ${activeProduct.price.toFixed(2)}
+                ฿{activeProduct.price.toFixed(2)}
               </p>
 
               <div className="flex gap-3 flex-wrap">
                 <button className="bg-[#1D4ED8] text-white font-bold shadow-lg hover:scale-105 hover:bg-blue-600 transition-all rounded-xl
                                    text-xs sm:text-sm py-3 px-6 sm:py-3.5 sm:px-8">
-                  Explore Now
-                </button>
-                <button className="bg-transparent border-2 border-white/20 text-white font-bold hover:bg-white/10 hover:border-white/40 transition-colors rounded-xl
-                                   text-xs sm:text-sm py-3 px-6 sm:py-3.5 sm:px-8">
-                  View Lookbook
+                  Shop Now
                 </button>
               </div>
             </div>
@@ -160,8 +157,8 @@ export default function HeroBanner({ products = [], loading = false }) {
                   key={idx}
                   onClick={() => goToSlide(idx)}
                   className={`rounded-full transition-all duration-300 ${idx === currentSlide
-                      ? 'w-6 h-1.5 bg-white'
-                      : 'w-1.5 h-1.5 bg-white/40 hover:bg-white/60'
+                    ? 'w-6 h-1.5 bg-white'
+                    : 'w-1.5 h-1.5 bg-white/40 hover:bg-white/60'
                     }`}
                 />
               ))}

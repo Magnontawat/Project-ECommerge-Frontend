@@ -11,7 +11,7 @@ export default function ProductCard({ item, showPlusButton = false, useSquareAsp
       <div className="relative">
         <div className="text-[9px] text-[#64748B] font-bold tracking-widest uppercase mb-1">{item.category}</div>
         <div className="text-sm font-bold text-[#0F172A] mb-1 group-hover:text-[#1D4ED8] transition-colors line-clamp-1">{item.name}</div>
-        <div className="text-xs font-bold text-[#1D4ED8]">${item.price.toFixed(2)}</div>
+        <div className="text-xs font-bold text-[#1D4ED8]">฿{item.price.toFixed(2)}</div>
         {showPlusButton && (
           <button className="absolute right-0 bottom-0 p-1.5 bg-[#F1F5F9] rounded-full text-gray-600 hover:bg-[#1D4ED8] hover:text-white transition-colors">
             <Plus size={16} strokeWidth={2.5} />
