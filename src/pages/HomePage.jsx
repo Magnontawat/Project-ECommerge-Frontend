@@ -49,13 +49,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── New Arrivals ────────────────────────────────────────────────── */}
+      {/* ── suggesyion (random item from ALL_PRODUCTS) ────────────────────────────────────────────────── */}
       <section>
         <div className="flex justify-between items-end mb-6 sm:mb-8">
           <div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight mb-1 sm:mb-2">New Arrivals</h2>
-            <p className="text-sm text-gray-500 font-medium hidden sm:block">The latest additions to our curated gallery.</p>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight mb-1 sm:mb-2">Suggestion</h2>
           </div>
+
+          {/* ตัวโยกซ้ายขวา */}
           <div className="flex gap-2">
             <button className="p-2 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 transition-colors hover:text-gray-900">
               <ChevronLeft size={16} />
@@ -63,6 +64,7 @@ export default function HomePage() {
             <button className="p-2 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 transition-colors hover:text-gray-900">
               <ChevronRight size={16} />
             </button>
+
           </div>
         </div>
 
