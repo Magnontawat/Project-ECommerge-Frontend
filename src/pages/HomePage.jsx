@@ -17,6 +17,8 @@ const CATEGORIES = [
 
 export default function HomePage() {
   const { scrollRef, scrollLeft, scrollRight } = useHorizontalScroll(350);
+  // hook แยกสำหรับ Suggestion section (scrollAmount = card width 260 + gap 24)
+  const { scrollRef: suggRef, scrollLeft: suggLeft, scrollRight: suggRight } = useHorizontalScroll(284);
   const { products: heroProducts, loading: heroLoading } = useLatestProducts(5);
 
   return (
@@ -49,40 +51,41 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── suggesyion (random item from ALL_PRODUCTS) ────────────────────────────────────────────────── */}
+      {/* ── Suggestion — horizontal scroll, map SUGGESTED_PRODUCTS (12 items) ── */}
       <section>
-        <div className="flex justify-between items-end mb-6 sm:mb-8">
+        <div className="flex justify-between items-end border-b border-gray-200 pb-4 mb-6 sm:mb-8">
           <div>
             <h2 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] tracking-tight mb-1 sm:mb-2">Suggestion</h2>
+            <p className="text-sm text-gray-500 font-medium hidden sm:block">Curated picks just for you.</p>
           </div>
 
-          {/* ตัวโยกซ้ายขวา */}
+          {/* ปุ่มโยกซ้ายขวา — เชื่อมกับ suggRef */}
           <div className="flex gap-2">
-            <button className="p-2 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 transition-colors hover:text-gray-900">
+            <button
+              onClick={suggLeft}
+              className="p-2 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 transition-colors hover:text-gray-900"
+            >
               <ChevronLeft size={16} />
             </button>
-            <button className="p-2 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 transition-colors hover:text-gray-900">
+            <button
+              onClick={suggRight}
+              className="p-2 rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 transition-colors hover:text-gray-900"
+            >
               <ChevronRight size={16} />
             </button>
-
           </div>
         </div>
 
-        {/* 2 cols on mobile, 4 on desktop */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {NEW_ARRIVALS.map(item => (
-            <div key={item.id} className="group cursor-pointer">
-              <div className="aspect-[4/5] bg-[#F1F5F9] rounded-2xl overflow-hidden mb-3 sm:mb-4 relative shadow-sm">
-                <img
-                  src={item.image}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  alt={item.name}
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors" />
-              </div>
-              <div className="text-[9px] text-[#64748B] font-bold tracking-widest uppercase mb-1">{item.category}</div>
-              <div className="text-sm font-bold text-[#0F172A] mb-1 group-hover:text-[#1D4ED8] transition-colors leading-tight">{item.name}</div>
-              <div className="text-xs font-bold text-[#1D4ED8]">฿{item.price.toFixed(2)}</div>
+        {/* Horizontal scroll container
+             mobile : w-[44vw] → แสดง 2 การ์ดต่อครั้ง
+             desktop: w-[260px] → แสดง 4 การ์ดต่อครั้ง */}
+        <div
+          ref={suggRef}
+          className="flex overflow-x-auto gap-4 sm:gap-6 pb-6 pt-2 scrollbar-hide snap-x snap-mandatory px-1"
+        >
+          {SUGGESTED_PRODUCTS.map((item) => (
+            <div key={item.id} className="snap-start w-[44vw] sm:w-[260px] shrink-0">
+              <ProductCard item={item} showPlusButton={true} useSquareAspect={true} />
             </div>
           ))}
         </div>
