@@ -12,6 +12,7 @@ export default function HomePage() {
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 mt-6 sm:mt-8 flex flex-col gap-12 sm:gap-16 w-full">
       <HeroBanner products={heroProducts} loading={heroLoading} />
+
       <CategoriesSection />
 
       <SuggestionSection

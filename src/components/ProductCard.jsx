@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function ProductCard({ item, showPlusButton = false, useSquareAspect = false }) {
   return (
-    <div className={`group cursor-pointer bg-white p-3 sm:p-5 rounded-[20px] sm:rounded-3xl shadow-sm border border-gray-100 hover:shadow-lg transition-all`}>
+    <Link to={`/product/${item.id}`} className={`group cursor-pointer bg-white p-3 sm:p-5 rounded-[20px] sm:rounded-3xl shadow-sm border border-gray-100 hover:shadow-lg transition-all block`}>
       <div className={`bg-gray-50 rounded-xl sm:rounded-2xl overflow-hidden mb-3 sm:mb-4 relative ${useSquareAspect ? 'aspect-square' : 'aspect-[4/5]'}`}>
         <img src={item.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt={item.name} />
       </div>
@@ -18,6 +18,6 @@ export default function ProductCard({ item, showPlusButton = false, useSquareAsp
           </button>
         )}
       </div>
-    </div>
+    </Link>
   );
 }
