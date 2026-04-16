@@ -115,20 +115,21 @@ export default function HeroBanner({ products = [], loading = false }) {
               </div>
             </div>
 
-            {/* Right: Product image — hidden on small mobile, shown md+ */}
-            <div className="absolute right-0 top-0 bottom-0 w-1/2 items-center justify-end pr-6 sm:pr-10 lg:pr-16
-                            bg-gradient-to-l from-transparent via-[#0A1128]/40 to-[#0A1128]
-                            hidden sm:flex">
+            {/* Product image — absolute background on mobile, right side on desktop */}
+            <div className="absolute inset-0 sm:left-auto sm:right-0 sm:w-1/2 flex items-center justify-center sm:justify-end 
+                            pr-0 sm:pr-10 lg:pr-16
+                            bg-transparent sm:bg-gradient-to-l sm:from-transparent sm:via-[#0A1128]/40 sm:to-[#0A1128]
+                            pointer-events-none z-0">
               <div
                 key={`img-${currentSlide}`}
-                className="relative w-full max-w-[320px] lg:max-w-[420px] h-full flex flex-col items-center justify-center pt-6"
+                className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[420px] h-full flex flex-col items-center justify-center opacity-20 sm:opacity-100"
                 style={{ animation: 'heroImageIn 0.7s ease forwards' }}
               >
                 <img
                   src={activeProduct.image}
                   alt={activeProduct.name}
-                  className="w-full object-contain mix-blend-screen opacity-90 drop-shadow-2xl hover:scale-105 transition-transform duration-700
-                             h-[260px] sm:h-[300px] lg:h-[380px]"
+                  className="w-full object-contain mix-blend-screen drop-shadow-2xl hover:scale-105 transition-transform duration-700
+                             h-[220px] sm:h-[300px] lg:h-[380px]"
                 />
               </div>
             </div>
