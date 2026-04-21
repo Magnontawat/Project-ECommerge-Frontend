@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
-import { Search, Menu, X, ShoppingBag } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Search, Menu, X, ShoppingBag, LogOut, User } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { isLoggedIn, user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+    setMenuOpen(false);
+  };
 
   return (
     <nav className="w-full bg-white px-4 sm:px-8 lg:px-12 py-4 flex items-center justify-between shadow-sm sticky top-0 z-50">
@@ -26,10 +35,33 @@ export default function Navbar() {
 
       {/* Desktop actions */}
       <div className="hidden lg:flex items-center gap-6">
-        <button className="text-sm font-bold text-gray-600 hover:text-[#1D4ED8] transition-colors">Sign In</button>
-        <button className="text-sm font-bold bg-[#1D4ED8] text-white px-6 py-2.5 rounded-full hover:bg-blue-800 transition-colors shadow-md shadow-blue-900/10">
-          Register
-        </button>
+        {isLoggedIn ? (
+          <>
+            <span className="flex items-center gap-2 text-sm font-bold text-[#0F172A]">
+              <User size={16} className="text-[#032b82]" />
+              {user?.name}
+            </span>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-red-500 transition-colors"
+            >
+              <LogOut size={16} />
+              Sign Out
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="text-sm font-bold text-gray-600 hover:text-[#1D4ED8] transition-colors">
+              Sign In
+            </Link>
+            <Link
+              to="/register"
+              className="text-sm font-bold bg-[#1D4ED8] text-white px-6 py-2.5 rounded-full hover:bg-blue-800 transition-colors shadow-md shadow-blue-900/10"
+            >
+              Register
+            </Link>
+          </>
+        )}
       </div>
 
       {/* Mobile actions */}
@@ -61,12 +93,39 @@ export default function Navbar() {
               className="w-full bg-[#F3F4F6] text-sm py-2.5 pl-10 pr-4 rounded-full outline-none focus:ring-2 focus:ring-[#1D4ED8]/20 transition-all text-gray-700 font-medium"
             />
           </div>
-          <button className="text-sm font-bold text-gray-700 hover:text-[#1D4ED8] transition-colors text-left py-1">
-            Sign In
-          </button>
-          <button className="text-sm font-bold bg-[#1D4ED8] text-white py-3 rounded-full hover:bg-blue-800 transition-colors">
-            Register
-          </button>
+
+          {isLoggedIn ? (
+            <>
+              <div className="flex items-center gap-2 text-sm font-bold text-[#0F172A] py-1">
+                <User size={16} className="text-[#032b82]" />
+                {user?.name}
+              </div>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 text-sm font-bold text-red-500 hover:text-red-700 transition-colors text-left py-1"
+              >
+                <LogOut size={16} />
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                onClick={() => setMenuOpen(false)}
+                className="text-sm font-bold text-gray-700 hover:text-[#1D4ED8] transition-colors text-left py-1"
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/register"
+                onClick={() => setMenuOpen(false)}
+                className="text-sm font-bold bg-[#1D4ED8] text-white py-3 rounded-full hover:bg-blue-800 transition-colors text-center"
+              >
+                Register
+              </Link>
+            </>
+          )}
         </div>
       )}
     </nav>

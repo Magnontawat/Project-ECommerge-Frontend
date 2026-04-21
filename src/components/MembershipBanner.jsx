@@ -1,7 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function MembershipBanner({ isLoggedIn = false }) {
-  // ไม่แสดงถ้าทำการล็อคอินแล้ว
   if (isLoggedIn) return null;
 
   return (
@@ -15,9 +15,12 @@ export default function MembershipBanner({ isLoggedIn = false }) {
           Join Shopter today to unlock exclusive benefits, early access to new drops, and personalized recommendations.
         </p>
       </div>
-      <button className="bg-[#0F172A] text-white font-bold py-4 px-10 rounded-full hover:bg-black transition-colors shadow-lg hover:-translate-y-1 shrink-0 w-full sm:w-auto">
+      <Link
+        to="/login"
+        className="bg-[#0F172A] text-white font-bold py-4 px-10 rounded-full hover:bg-black transition-colors shadow-lg hover:-translate-y-1 shrink-0 w-full sm:w-auto text-center inline-block"
+      >
         Register Now
-      </button>
+      </Link>
     </section>
   );
 }
