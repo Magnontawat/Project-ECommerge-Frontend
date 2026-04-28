@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react' //เรียกใช้ useState และ useEffect
+import { useParams } from 'react-router-dom'; //ใช้ useParams
 import { ALL_PRODUCTS } from '../data/mock';
 import ProductGallery from '../components/ProductGallery';
 import ProductInfo from '../components/ProductInfo';
 import ShowcaseGrid from '../components/ShowcaseGrid';
 
+//สร้าง componenet producDetailPage ขึ้นมา เพื่อส่งให้ App.jsx แสดงผล
 export default function ProductDetailPage() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -24,15 +25,19 @@ export default function ProductDetailPage() {
     );
   }
 
-  // Get random "more from this shop" and "recommended"
-  // Using deterministic slicing to avoid hydration mismatch if SSR, but fine for pure React
+  //    ***** code ข้างล่างนี้จำลองการ fetch ข้อมูลจากหน้าบ้านไปหลังบ้าน ทำเพื่อ mock code ก่อนทำ backend (ต้องลบ) *****
+
+  //เลือกเอา product ที่ไม่ใช่ product ที่เปิดอยู่ และเอา category เดียวกัน
   const categoryItems = ALL_PRODUCTS.filter(p => p.id !== product.id && p.category === product.category);
+  //เลือกเอา product 3 ชิ้นจาก categoryItems
   const shopItems = categoryItems.slice(0, 3);
 
+  //เลือกเอา product ที่ไม่ใช่ product ที่เปิดอยู่ และเอา category อื่น
   const otherItems = ALL_PRODUCTS.filter(p => p.id !== product.id && p.category !== product.category);
+  // เลือกเอา product 3 ชิ้นจาก otherItems
   const recommendedItems = otherItems.slice(0, 3);
 
-  // Fallback to ensuring we have 3 items if not enough in category
+  // เช็คเฉยๆ หากใน catergory นั้นๆ มีน้อยกว่า 3 ชิ้น จะทำการเอาสินค้าจาก catergory อื่นๆมาใส่แทน
   const finalShopItems = shopItems.length === 3 ? shopItems : otherItems.slice(3, 6);
 
   return (
