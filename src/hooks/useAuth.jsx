@@ -24,6 +24,7 @@ export function useAuth() {
  * AuthProvider — Wrap รอบแอปใน App.jsx
  * จัดการ state: user, token, loading, error
  */
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     // Persist login across page refresh via sessionStorage
