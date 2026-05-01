@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
+import BookDetailPage from './pages/BookDetailPage'
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <div className="flex-1 pt-[80px]">
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/books/:id" element={<BookDetailPage />} />
         </Routes>
       </div>
       <Footer />

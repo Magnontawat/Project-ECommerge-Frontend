@@ -6,8 +6,8 @@ export default function BookCard({ book }) {
   const { id, title, author, price, cover } = book
 
   return (
-    // ครอบด้วย Link เพื่อให้กดไปดูรายละเอียดได้ (เตรียมเผื่อไว้สำหรับอนาคต)
-    <Link to="/" className="flex flex-col group" aria-label={`View ${title}`}>
+    // ครอบด้วย Link เพื่อให้กดไปดูรายละเอียดได้
+    <Link to={`/books/${id}`} className="flex flex-col group" aria-label={`View ${title}`}>
       
       {/* ส่วนรูปปกหนังสือ */}
       <div className="relative aspect-[2/3] mb-4 bg-[#EEEEEE] flex items-center justify-center p-6">
@@ -23,8 +23,8 @@ export default function BookCard({ book }) {
       <h3 className="font-serif text-[1.1rem] mb-1 text-text-main">{title}</h3>
       <p className="font-sans text-text-muted text-[0.8rem] mb-2">{author}</p>
       
-      {/* แสดงราคาโดยบังคับให้มีทศนิยม 2 ตำแหน่ง */}
-      <span className="font-sans text-text-muted text-[0.85rem]">${price.toFixed(2)}</span>
+      {/* แสดงราคาโดยบังคับให้มีทศนิยม 2 ตำแหน่ง (แปลงเป็นตัวเลขก่อนเผื่อ API ส่งมาเป็น String) */}
+      <span className="font-sans text-text-muted text-[0.85rem]">${Number(price).toFixed(2)}</span>
     </Link>
   )
 }

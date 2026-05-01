@@ -20,4 +20,16 @@ export const fetchBooks = async () => {
   }
 }
 
+// ดึงข้อมูลหนังสือตาม ID
+export const fetchBookById = async (id) => {
+  try {
+    const response = await api.get(`/books/${id}`)
+    // API ส่งค่ากลับมาเป็น Array ให้คืนค่า index 0
+    return response.data
+  } catch (error) {
+    console.error(`Error fetching book with id ${id}:`, error)
+    throw error
+  }
+}
+
 export default api
