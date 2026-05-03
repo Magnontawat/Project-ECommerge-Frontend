@@ -1,43 +1,58 @@
-// ---------------------------------------------------------------------------
-// authService.js — จำลอง API calls สำหรับ Authentication
-// ในอนาคตแทนที่ด้วย fetch('/api/auth/login') จริงๆ
-// ---------------------------------------------------------------------------
-
-const FAKE_DELAY_MS = 1200; // จำลอง network latency
-
-// Mock user database
-const MOCK_USERS = [
-  { id: 1, email: 'demo@shopter.com', password: 'demo1234', name: 'Demo User' },
-  { id: 2, email: 'admin@shopter.com', password: 'admin123', name: 'Admin' },
-];
+import api from './api';
 
 /**
- * จำลองการ Login — ในอนาคตเปลี่ยนเป็น:
- * const res = await fetch('/api/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) });
+ * Login User
+ * POST /api/auth/login
  */
 export async function loginUser({ email, password }) {
-  await new Promise(resolve => setTimeout(resolve, FAKE_DELAY_MS));
-
-  const user = MOCK_USERS.find(u => u.email === email && u.password === password);
-
-  if (!user) {
-    throw new Error('Invalid email or password. Please try again.');
+  try {
+    const response = await api.post('/auth/login', { email, password });
+    // Expecting: { id, username, role, level, token }
+    return {
+      user: {
+        id: response.data.id,
+        username: response.data.username,
+        role: response.data.role,
+        level: response.data.level
+      },
+      token: response.data.token,
+    };
+  } catch (error) {
+    const message = error.response?.data?.message || 'Login failed. Please check your credentials.';
+    throw new Error(message);
   }
-
-  // In the future, this token will come from the backend (e.g., JWT)
-  const mockToken = btoa(`${user.id}:${user.email}:${Date.now()}`);
-
-  return {
-    user: { id: user.id, name: user.name, email: user.email },
-    token: mockToken,
-  };
 }
 
 /**
- * จำลองการ Logout
+ * Register User
+ * POST /api/auth/register
+ */
+export async function registerUser({ email, username, password }) {
+  try {
+    const response = await api.post('/auth/register', { email, username, password });
+    // Expecting: { id, email, username, role, level, token }
+    return {
+      user: {
+        id: response.data.id,
+        username: response.data.username,
+        email: response.data.email,
+        role: response.data.role,
+        level: response.data.level
+      },
+      token: response.data.token,
+    };
+  } catch (error) {
+    const message = error.response?.data?.message || 'Registration failed. Please try again.';
+    throw new Error(message);
+  }
+}
+
+/**
+ * Logout User
  */
 export async function logoutUser() {
-  await new Promise(resolve => setTimeout(resolve, 300));
-  // In the future: await fetch('/api/auth/logout', { method: 'POST' });
+  // Usually, logout on client-side just involves clearing the token.
+  // If there's a backend endpoint, we'd call it here.
   return true;
 }
+

@@ -3,6 +3,8 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
 import BookDetailPage from './pages/BookDetailPage'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/books/:id" element={<BookDetailPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
       </div>
       <Footer />
@@ -20,3 +24,4 @@ function App() {
 }
 
 export default App
+

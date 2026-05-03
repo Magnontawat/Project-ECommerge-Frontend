@@ -1,56 +1,101 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect } from 'react'
+import { loginUser, registerUser, logoutUser } from '../services/authService'
 
 // สร้าง Context สำหรับจัดการข้อมูลผู้ใช้งาน (Authentication) ส่วนกลาง
 const AuthContext = createContext(null)
 
-// คอมโพเนนต์ Provider เอาไว้ครอบส่วนที่ต้องการให้เข้าถึงข้อมูลผู้ใช้ได้ (ปกติครอบทั้ง App)
 export function AuthProvider({ children }) {
-  // สถานะผู้ใช้งานปัจจุบัน และ Token รหัสผ่าน
   const [user, setUser] = useState(null)
-  const [token, setToken] = useState(() => localStorage.getItem('token') || null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
   
-  // เช็คว่าล็อกอินอยู่หรือไม่ โดยดูจากการมี Token
-  const isLoggedIn = !!token
+  const isLoggedIn = !!user
 
-  // เมื่อโหลดเว็บครั้งแรก: ให้ลองดึงข้อมูล user กลับมาจาก localStorage (ถ้าเคยล็อกอินไว้)
+  // เมื่อโหลดเว็บครั้งแรก: ดึงข้อมูล user จาก localStorage
   useEffect(() => {
-    const savedUser = localStorage.getItem('user')
+    const savedUser = localStorage.getItem('shopter_user')
     if (savedUser) {
       try {
         setUser(JSON.parse(savedUser))
       } catch {
-        localStorage.removeItem('user')
+        localStorage.removeItem('shopter_user')
+        localStorage.removeItem('shopter_token')
       }
     }
   }, [])
 
-  // ฟังก์ชันสำหรับล็อกอิน (บันทึกข้อมูลลง State และ localStorage)
-  const login = (newToken, newUser) => {
-    setToken(newToken)
-    setUser(newUser)
-    localStorage.setItem('token', newToken)
-    localStorage.setItem('user', JSON.stringify(newUser))
-  }
+  // ── Login ──────────────────────────────────────────────────────────────────
+  const login = useCallback(async ({ email, password }) => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      const { user: loggedInUser, token } = await loginUser({ email, password })
+      setUser(loggedInUser)
+      localStorage.setItem('shopter_user', JSON.stringify(loggedInUser))
+      localStorage.setItem('shopter_token', token)
+      return { success: true }
+    } catch (err) {
+      setError(err.message)
+      return { success: false, message: err.message }
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
 
-  // ฟังก์ชันสำหรับออกจากระบบ (ลบข้อมูลทิ้งทั้งหมด)
-  const logout = () => {
-    setToken(null)
-    setUser(null)
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
-  }
+  // ── Register ───────────────────────────────────────────────────────────────
+  const register = useCallback(async ({ email, username, password }) => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      const { user: registeredUser, token } = await registerUser({ email, username, password })
+      setUser(registeredUser)
+      localStorage.setItem('shopter_user', JSON.stringify(registeredUser))
+      localStorage.setItem('shopter_token', token)
+      return { success: true }
+    } catch (err) {
+      setError(err.message)
+      return { success: false, message: err.message }
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  // ── Logout ─────────────────────────────────────────────────────────────────
+  const logout = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      await logoutUser()
+    } catch {
+      // silent fail
+    } finally {
+      setUser(null)
+      localStorage.removeItem('shopter_user')
+      localStorage.removeItem('shopter_token')
+      setIsLoading(false)
+    }
+  }, [])
+
+  const clearError = useCallback(() => setError(null), [])
 
   return (
-    // ส่งผ่านข้อมูลและฟังก์ชันทั้งหมดลงไปให้ลูกๆ ใช้งาน
-    <AuthContext.Provider value={{ user, token, isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      isLoggedIn, 
+      isLoading, 
+      error, 
+      login, 
+      register, 
+      logout, 
+      clearError 
+    }}>
       {children}
     </AuthContext.Provider>
   )
 }
 
-// Custom hook เพื่อให้คอมโพเนนต์อื่นๆ สามารถเรียกใช้ข้อมูล Auth ได้ง่ายๆ
 export function useAuth() {
   const ctx = useContext(AuthContext)
   if (!ctx) throw new Error('useAuth ต้องถูกเรียกใช้ภายใต้ <AuthProvider> เท่านั้น')
   return ctx
 }
+

@@ -45,10 +45,10 @@ export default function Navbar() {
             </button>
           ) : (
             <>
-              <Link to="/" className="text-[0.9rem] text-text-muted hover:text-text-main transition-colors">
+              <Link to="/login" className="text-[0.9rem] text-text-muted hover:text-text-main transition-colors">
                 Login
               </Link>
-              <Link to="/" className="inline-flex items-center justify-center font-sans font-normal text-[0.9rem] cursor-pointer transition-colors border-none py-[0.5rem] px-[1.2rem] bg-brand text-white hover:bg-brand-hover rounded-sm">
+              <Link to="/register" className="inline-flex items-center justify-center font-sans font-normal text-[0.9rem] cursor-pointer transition-colors border-none py-[0.5rem] px-[1.2rem] bg-brand text-white hover:bg-brand-hover rounded-sm">
                 Register
               </Link>
             </>
@@ -72,8 +72,8 @@ export default function Navbar() {
                 </button>
               ) : (
                 <>
-                  <Link to="/" className="text-center text-text-main py-2 border border-border-color rounded-sm" onClick={() => setIsMenuOpen(false)}>Login</Link>
-                  <Link to="/" className="text-center text-white bg-brand py-2 rounded-sm" onClick={() => setIsMenuOpen(false)}>Register</Link>
+                  <Link to="/login" className="text-center text-text-main py-2 border border-border-color rounded-sm" onClick={() => setIsMenuOpen(false)}>Login</Link>
+                  <Link to="/register" className="text-center text-white bg-brand py-2 rounded-sm" onClick={() => setIsMenuOpen(false)}>Register</Link>
                 </>
               )}
             </div>
