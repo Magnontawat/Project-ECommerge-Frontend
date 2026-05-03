@@ -9,11 +9,8 @@ import './index.css'
 createRoot(document.getElementById('root')).render(
   // StrictMode ช่วยเตือนโค้ดที่อาจมีปัญหา (แสดงผลเฉพาะตอน Development)
   <StrictMode>
-    {/* BrowserRouter ช่วยจัดการระบบเปลี่ยนหน้า (Routing) ในเว็บของเรา */}
     <BrowserRouter>
-      {/* AuthProvider เป็นตัวจ่ายข้อมูลการล็อกอิน ให้กระจายไปทั่วแอป */}
       <AuthProvider>
-        {/* เรียกใช้งานคอมโพเนนต์หลัก */}
         <App />
       </AuthProvider>
     </BrowserRouter>
