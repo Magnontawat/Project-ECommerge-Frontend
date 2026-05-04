@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 
 // คอมโพเนนต์แถบนำทาง (Navbar) รองรับ Mobile & Desktop
 export default function Navbar() {
-  const { isLoggedIn, logout } = useAuth()
+  const { isLoggedIn, logout, openLogin, openRegister } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
@@ -45,12 +45,18 @@ export default function Navbar() {
             </button>
           ) : (
             <>
-              <Link to="/login" className="text-[0.9rem] text-text-muted hover:text-text-main transition-colors">
+              <button 
+                onClick={openLogin}
+                className="text-[0.9rem] text-text-muted hover:text-text-main transition-colors cursor-pointer"
+              >
                 Login
-              </Link>
-              <Link to="/register" className="inline-flex items-center justify-center font-sans font-normal text-[0.9rem] cursor-pointer transition-colors border-none py-[0.5rem] px-[1.2rem] bg-brand text-white hover:bg-brand-hover rounded-sm">
+              </button>
+              <button 
+                onClick={openRegister}
+                className="inline-flex items-center justify-center font-sans font-normal text-[0.9rem] cursor-pointer transition-colors border-none py-[0.5rem] px-[1.2rem] bg-brand text-white hover:bg-brand-hover rounded-sm"
+              >
                 Register
-              </Link>
+              </button>
             </>
           )}
         </div>
@@ -72,8 +78,18 @@ export default function Navbar() {
                 </button>
               ) : (
                 <>
-                  <Link to="/login" className="text-center text-text-main py-2 border border-border-color rounded-sm" onClick={() => setIsMenuOpen(false)}>Login</Link>
-                  <Link to="/register" className="text-center text-white bg-brand py-2 rounded-sm" onClick={() => setIsMenuOpen(false)}>Register</Link>
+                  <button 
+                    onClick={() => { openLogin(); setIsMenuOpen(false); }}
+                    className="text-center text-text-main py-2 border border-border-color rounded-sm cursor-pointer"
+                  >
+                    Login
+                  </button>
+                  <button 
+                    onClick={() => { openRegister(); setIsMenuOpen(false); }}
+                    className="text-center text-white bg-brand py-2 rounded-sm cursor-pointer"
+                  >
+                    Register
+                  </button>
                 </>
               )}
             </div>

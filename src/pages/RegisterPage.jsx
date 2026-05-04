@@ -7,11 +7,11 @@ export default function RegisterPage() {
   const navigate = useNavigate();
   const { register, isLoading, error, clearError } = useAuth();
 
-  const [form, setForm] = useState({ 
-    username: '', 
-    email: '', 
+  const [form, setForm] = useState({
+    username: '',
+    email: '',
     password: '',
-    confirmPassword: '' 
+    confirmPassword: ''
   });
   const [showPassword, setShowPassword] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
@@ -22,10 +22,10 @@ export default function RegisterPage() {
     if (!form.username.trim()) errs.username = 'Username is required.';
     if (!form.email.trim()) errs.email = 'Email is required.';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errs.email = 'Enter a valid email address.';
-    
+
     if (!form.password) errs.password = 'Password is required.';
-    else if (form.password.length < 6) errs.password = 'Password must be at least 6 characters.';
-    
+    else if (form.password.length < 5) errs.password = 'Password must be at least 5 characters.';
+
     if (form.confirmPassword !== form.password) {
       errs.confirmPassword = 'Passwords do not match.';
     }
@@ -48,12 +48,12 @@ export default function RegisterPage() {
       return;
     }
 
-    const result = await register({ 
-      username: form.username, 
-      email: form.email, 
-      password: form.password 
+    const result = await register({
+      username: form.username,
+      email: form.email,
+      password: form.password
     });
-    
+
     if (result.success) {
       navigate('/'); // redirect to home on success
     }
@@ -120,7 +120,7 @@ export default function RegisterPage() {
           )}
 
           <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
-            
+
             {/* Username */}
             <div>
               <label className="text-[10px] uppercase font-bold tracking-widest text-gray-500 block mb-2">

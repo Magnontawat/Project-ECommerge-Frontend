@@ -8,6 +8,10 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
+
+  // Drawer State
+  const [isAuthDrawerOpen, setIsAuthDrawerOpen] = useState(false)
+  const [authMode, setAuthMode] = useState('login') // 'login' or 'register'
   
   const isLoggedIn = !!user
 
@@ -77,6 +81,22 @@ export function AuthProvider({ children }) {
 
   const clearError = useCallback(() => setError(null), [])
 
+  const openLogin = useCallback(() => {
+    setAuthMode('login')
+    setIsAuthDrawerOpen(true)
+    setError(null)
+  }, [])
+
+  const openRegister = useCallback(() => {
+    setAuthMode('register')
+    setIsAuthDrawerOpen(true)
+    setError(null)
+  }, [])
+
+  const closeAuthDrawer = useCallback(() => {
+    setIsAuthDrawerOpen(false)
+  }, [])
+
   return (
     <AuthContext.Provider value={{ 
       user, 
@@ -86,7 +106,13 @@ export function AuthProvider({ children }) {
       login, 
       register, 
       logout, 
-      clearError 
+      clearError,
+      isAuthDrawerOpen,
+      authMode,
+      setAuthMode,
+      openLogin,
+      openRegister,
+      closeAuthDrawer
     }}>
       {children}
     </AuthContext.Provider>
