@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
   // Drawer State
   const [isAuthDrawerOpen, setIsAuthDrawerOpen] = useState(false)
   const [authMode, setAuthMode] = useState('login') // 'login' or 'register'
-  
+
   const isLoggedIn = !!user
 
   // เมื่อโหลดเว็บครั้งแรก: ดึงข้อมูล user จาก localStorage
@@ -98,14 +98,14 @@ export function AuthProvider({ children }) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      isLoggedIn, 
-      isLoading, 
-      error, 
-      login, 
-      register, 
-      logout, 
+    <AuthContext.Provider value={{
+      user,
+      isLoggedIn,
+      isLoading,
+      error,
+      login,
+      register,
+      logout,
       clearError,
       isAuthDrawerOpen,
       authMode,
