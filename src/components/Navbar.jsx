@@ -224,7 +224,8 @@ export default function Navbar() {
           BaBaBook
         </Link>
 
-        {/* ปุ่ม Hamburger สำหรับ Mobile */}
+        {/* ปุ่ม Hamburger สำหรับ Mobile  */}
+        {/* เอาไว้โชว์สลับไปมาระหว่าง hamberger กับ X */}
         <button
           className="md:hidden z-50 p-2 text-text-main"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -255,6 +256,7 @@ export default function Navbar() {
         </button>
 
         {/* เมนูตรงกลาง (สำหรับ Desktop) */}
+        {/* ยังไม่ได้ลิ้งค์ */}
         <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 gap-10">
           <Link
             to="/"
@@ -293,11 +295,14 @@ export default function Navbar() {
         </div>
 
         {/* ── Mobile Dropdown Menu ── */}
+        {/* เมนูนี้จะตรวจจับกับ hamberger icon */}
+
         <div
+          // ย้ายเมนูเข้ามาหน้าจอ
           className={`
           absolute top-[70px] left-0 w-full bg-white shadow-lg border-b border-border-color md:hidden
           transition-all duration-300 ease-in-out origin-top
-          ${isMenuOpen ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0 pointer-events-none"}
+          ${isMenuOpen ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0 pointer-events-none"} 
         `}
         >
           <div className="flex flex-col p-4 gap-4">

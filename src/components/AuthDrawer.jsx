@@ -34,6 +34,7 @@ export default function AuthDrawer() {
     }
   }, [isAuthDrawerOpen, authMode]);
 
+  // ฟังก์ชั่นเปลี่ยนคำที่พิมพ์ลง input
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
