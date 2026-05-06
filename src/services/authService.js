@@ -1,12 +1,9 @@
-import api from './api';
+import api from './api'
 
-/**
- * Login User
- * POST /api/auth/login
- */
+// Login User — POST /api/auth/login
 export async function loginUser({ email, password }) {
   try {
-    const response = await api.post('/auth/login', { email, password });
+    const response = await api.post('/auth/login', { email, password })
     // Expecting: { id, username, role, level, token }
     return {
       user: {
@@ -16,20 +13,17 @@ export async function loginUser({ email, password }) {
         level: response.data.level
       },
       token: response.data.token,
-    };
+    }
   } catch (error) {
-    const message = error.response?.data?.message || 'Login failed. Please check your credentials.';
-    throw new Error(message);
+    const message = error.response?.data?.message || 'Login failed. Please check your credentials.'
+    throw new Error(message)
   }
 }
 
-/**
- * Register User
- * POST /api/auth/register
- */
+// Register User — POST /api/auth/register
 export async function registerUser({ email, username, password }) {
   try {
-    const response = await api.post('/auth/register', { email, username, password });
+    const response = await api.post('/auth/register', { email, username, password })
     // Expecting: { id, email, username, role, level, token }
     return {
       user: {
@@ -40,19 +34,14 @@ export async function registerUser({ email, username, password }) {
         level: response.data.level
       },
       token: response.data.token,
-    };
+    }
   } catch (error) {
-    const message = error.response?.data?.message || 'Registration failed. Please try again.';
-    throw new Error(message);
+    const message = error.response?.data?.message || 'Registration failed. Please try again.'
+    throw new Error(message)
   }
 }
 
-/**
- * Logout User
- */
+// Placeholder สำหรับ server-side logout — localStorage ถูกล้างที่ AuthContext.jsx
 export async function logoutUser() {
-  // Usually, logout on client-side just involves clearing the token.
-  // If there's a backend endpoint, we'd call it here.
-  return true;
+  return true
 }
-

@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { X, ArrowRight, Loader2, Mail, Lock, User, ShieldCheck, Eye, EyeOff } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import { useState, useEffect } from 'react'
+import { X, ArrowRight, Loader2, ShieldCheck, Eye, EyeOff } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
+
+const MIN_PASSWORD_LENGTH = 5
 
 export default function AuthDrawer() {
   const {
@@ -13,74 +15,76 @@ export default function AuthDrawer() {
     isLoading,
     error,
     clearError
-  } = useAuth();
+  } = useAuth()
 
   const [form, setForm] = useState({
     username: '',
     email: '',
     password: '',
     confirmPassword: ''
-  });
+  })
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState({})
 
-  // Reset form when drawer opens/mode changes
+  // Reset form เมื่อ drawer เปิด หรือเปลี่ยนโหมด (login ↔ register)
   useEffect(() => {
     if (isAuthDrawerOpen) {
-      setForm({ username: '', email: '', password: '', confirmPassword: '' });
-      setFieldErrors({});
-      clearError();
+      setForm({ username: '', email: '', password: '', confirmPassword: '' })
+      setFieldErrors({})
+      setShowPassword(false)
+      clearError()
     }
-  }, [isAuthDrawerOpen, authMode]);
+  }, [isAuthDrawerOpen, authMode, clearError])
 
+  // ฟังก์ชั่นเปลี่ยนคำที่พิมพ์ลง input
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
-    if (fieldErrors[name]) setFieldErrors(prev => ({ ...prev, [name]: '' }));
-    if (error) clearError();
-  };
+    const { name, value } = e.target
+    setForm(prev => ({ ...prev, [name]: value }))
+    if (fieldErrors[name]) setFieldErrors(prev => ({ ...prev, [name]: '' }))
+    if (error) clearError()
+  }
 
   const validate = () => {
-    const errs = {};
-    if (authMode === 'register' && !form.username.trim()) errs.username = 'Username is required';
-    if (!form.email.trim()) errs.email = 'Email is required';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errs.email = 'Invalid email address';
+    const errs = {}
+    if (authMode === 'register' && !form.username.trim()) errs.username = 'กรุณากรอกชื่อผู้ใช้'
+    if (!form.email.trim()) errs.email = 'กรุณากรอกอีเมล'
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errs.email = 'อีเมลไม่ถูกต้อง'
 
-    if (!form.password) errs.password = 'Password is required';
-    else if (form.password.length < 5) errs.password = 'Min 5 characters';
+    if (!form.password) errs.password = 'กรุณากรอกรหัสผ่าน'
+    else if (form.password.length < MIN_PASSWORD_LENGTH) errs.password = `อย่างน้อย ${MIN_PASSWORD_LENGTH} ตัวอักษร`
 
     if (authMode === 'register' && form.password !== form.confirmPassword) {
-      errs.confirmPassword = 'Passwords do not match';
+      errs.confirmPassword = 'รหัสผ่านไม่ตรงกัน'
     }
-    return errs;
-  };
+    return errs
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const errs = validate();
+    e.preventDefault()
+    const errs = validate()
     if (Object.keys(errs).length > 0) {
-      setFieldErrors(errs);
-      return;
+      setFieldErrors(errs)
+      return
     }
 
-    let result;
+    let result
     if (authMode === 'login') {
-      result = await login({ email: form.email, password: form.password });
+      result = await login({ email: form.email, password: form.password })
     } else {
       result = await register({
         username: form.username,
         email: form.email,
         password: form.password
-      });
+      })
     }
 
     if (result.success) {
-      closeAuthDrawer();
+      closeAuthDrawer()
     }
-  };
+  }
 
-  if (!isAuthDrawerOpen) return null;
+  if (!isAuthDrawerOpen) return null
 
   return (
     <div className="fixed inset-0 z-[100] flex justify-end">
@@ -106,7 +110,7 @@ export default function AuthDrawer() {
             onClick={() => setAuthMode(authMode === 'login' ? 'register' : 'login')}
             className="text-[0.75rem] font-bold tracking-widest text-[#032b82] uppercase hover:underline"
           >
-            {authMode === 'login' ? 'Create Account' : 'Sign In'}
+            {authMode === 'login' ? 'สมัครสมาชิก' : 'เข้าสู่ระบบ'}
           </button>
         </div>
 
@@ -114,16 +118,16 @@ export default function AuthDrawer() {
           {/* Tag */}
           <div className="mb-4">
             <span className="inline-block bg-[#e0e7ff] text-[#032b82] text-[10px] font-bold tracking-widest px-3 py-1 rounded-full uppercase">
-              {authMode === 'login' ? 'Welcome Back' : 'Account Creation'}
+              {authMode === 'login' ? 'ยินดีต้อนรับกลับ' : 'สร้างบัญชีใหม่'}
             </span>
           </div>
 
           {/* Title */}
           <h2 className="text-[2.5rem] font-bold text-[#032b82] leading-tight mb-2">
-            {authMode === 'login' ? 'Login to Account' : 'Begin Your Journey'}
+            {authMode === 'login' ? 'เข้าสู่ระบบ' : 'เริ่มต้นกับเรา'}
           </h2>
           <p className="text-gray-500 text-sm mb-10 leading-relaxed">
-            Enter your details to access the BaBaBook editorial archives.
+            กรอกข้อมูลของคุณเพื่อเข้าใช้งาน BaBaBook
           </p>
 
           {/* Error Message */}
@@ -138,7 +142,7 @@ export default function AuthDrawer() {
             {authMode === 'register' && (
               <div>
                 <label className="text-[10px] font-bold text-gray-500 tracking-[0.1em] uppercase block mb-2">
-                  Username
+                  ชื่อผู้ใช้
                 </label>
                 <div className="relative">
                   <input
@@ -157,7 +161,7 @@ export default function AuthDrawer() {
 
             <div>
               <label className="text-[10px] font-bold text-gray-500 tracking-[0.1em] uppercase block mb-2">
-                Email Address
+                อีเมล
               </label>
               <div className="relative">
                 <input
@@ -176,11 +180,11 @@ export default function AuthDrawer() {
             <div>
               <div className="flex justify-between items-center mb-2">
                 <label className="text-[10px] font-bold text-gray-500 tracking-[0.1em] uppercase">
-                  Password
+                  รหัสผ่าน
                 </label>
                 {authMode === 'login' && (
                   <button type="button" className="text-[10px] font-bold text-[#032b82] uppercase hover:underline">
-                    Forgot?
+                    ลืมรหัสผ่าน?
                   </button>
                 )}
               </div>
@@ -208,7 +212,7 @@ export default function AuthDrawer() {
             {authMode === 'register' && (
               <div>
                 <label className="text-[10px] font-bold text-gray-500 tracking-[0.1em] uppercase block mb-2">
-                  Confirm Password
+                  ยืนยันรหัสผ่าน
                 </label>
                 <div className="relative">
                   <input
@@ -234,7 +238,7 @@ export default function AuthDrawer() {
                 <Loader2 size={20} className="animate-spin" />
               ) : (
                 <>
-                  {authMode === 'login' ? 'Sign In' : 'Create Account'}
+                  {authMode === 'login' ? 'เข้าสู่ระบบ' : 'สมัครสมาชิก'}
                   <ArrowRight size={20} />
                 </>
               )}
@@ -242,7 +246,7 @@ export default function AuthDrawer() {
           </form>
 
           <p className="mt-8 text-center text-[11px] text-gray-400 leading-relaxed font-medium">
-            Enter your details to access the BaBaBook editorial archives.
+            การสมัครหรือเข้าสู่ระบบแสดงว่าคุณยอมรับ เงื่อนไขการใช้งาน และ นโยบายความเป็นส่วนตัว ของเรา
           </p>
         </div>
 
@@ -253,11 +257,11 @@ export default function AuthDrawer() {
               <ShieldCheck size={20} className="text-[#032b82]" />
             </div>
             <p className="text-[10px] text-gray-500 font-bold tracking-widest uppercase leading-relaxed">
-              ENTER YOUR DETAILS TO ACCESS THE BABABOOK EDITORIAL ARCHIVES.
+              ข้อมูลของคุณได้รับการปกป้องด้วยระบบเข้ารหัสมาตรฐานสากล
             </p>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }

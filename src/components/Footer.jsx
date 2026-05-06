@@ -10,15 +10,15 @@ export default function Footer() {
 
         {/* เมนูลิงก์ต่างๆ ตรงกลาง */}
         <nav className="flex flex-wrap justify-center gap-4 md:gap-6 mb-2 md:mb-0">
-          <Link to="/" className="hover:text-text-main transition-colors">About Us</Link>
-          <Link to="/" className="hover:text-text-main transition-colors">Contact</Link>
-          <Link to="/" className="hover:text-text-main transition-colors">Shipping</Link>
-          <Link to="/" className="hover:text-text-main transition-colors">Returns</Link>
-          <Link to="/" className="hover:text-text-main transition-colors">Privacy Policy</Link>
+          <Link to="/" className="hover:text-text-main transition-colors">เกี่ยวกับเรา</Link>
+          <Link to="/" className="hover:text-text-main transition-colors">ติดต่อเรา</Link>
+          <Link to="/" className="hover:text-text-main transition-colors">การจัดส่ง</Link>
+          <Link to="/" className="hover:text-text-main transition-colors">การคืนสินค้า</Link>
+          <Link to="/" className="hover:text-text-main transition-colors">นโยบายความเป็นส่วนตัว</Link>
         </nav>
 
         {/* ลิขสิทธิ์ด้านขวา (ดึงปีปัจจุบันมาแสดงอัตโนมัติ) */}
-        <p className="text-center md:text-right">&copy; {new Date().getFullYear()} BaBaBook. All rights reserved.</p>
+        <p className="text-center md:text-right">&copy; {new Date().getFullYear()} BaBaBook. สงวนลิขสิทธิ์</p>
       </div>
     </footer>
   )

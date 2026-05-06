@@ -4,6 +4,8 @@ import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
 import BookDetailPage from './pages/BookDetailPage'
 import AuthDrawer from './components/AuthDrawer'
+import AddProductPage from './pages/AddProductPage'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
   return (
@@ -14,6 +16,12 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/books/:id" element={<BookDetailPage />} />
+          <Route path="/admin/add-product" element={
+            <ProtectedRoute role="admin">
+              <AddProductPage />
+            </ProtectedRoute>
+          }
+          />
         </Routes>
       </div>
       <Footer />

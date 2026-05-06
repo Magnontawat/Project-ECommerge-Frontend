@@ -26,9 +26,9 @@ export default function HomePage() {
       <section className="py-10 md:py-16 bg-bg-main">
         <div className="w-full max-w-[1200px] mx-auto px-4 md:px-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 md:mb-8 pb-3 md:pb-4 border-b border-border-color gap-2 sm:gap-0">
-            <h2 className="text-2xl md:text-3xl text-text-main font-serif font-medium">Recommended for You</h2>
+            <h2 className="text-2xl md:text-3xl text-text-main font-serif font-medium">แนะนำสำหรับคุณ</h2>
             <Link to="/" className="text-[0.8rem] md:text-[0.85rem] text-text-muted hover:text-text-main transition-colors">
-              View All &rarr;
+              ดูทั้งหมด &rarr;
             </Link>
           </div>
           <BookGrid books={recommended} loading={loading} columns={4} />
@@ -39,7 +39,7 @@ export default function HomePage() {
       <section className="pb-10 md:pb-16 bg-bg-main">
         <div className="w-full max-w-[1200px] mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between mb-4 md:mb-6 pb-2 md:pb-4">
-            <h2 className="text-2xl md:text-3xl text-text-main font-serif font-medium">Browse All Books</h2>
+            <h2 className="text-2xl md:text-3xl text-text-main font-serif font-medium">หนังสือทั้งหมด</h2>
           </div>
           <BookGrid books={paginatedBooks} loading={loading} columns={4} />
 

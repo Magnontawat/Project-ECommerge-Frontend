@@ -10,23 +10,22 @@ export default function HeroBanner() {
         <div className="w-full max-w-[450px] mx-auto md:mx-0 text-center md:text-left order-2 md:order-1 mt-6 md:mt-0">
           {/* ป้ายกำกับเล็กๆ */}
           <span className="inline-block px-3 py-1 md:px-4 md:py-1 border border-[#E0E0E0] rounded-full text-[0.7rem] md:text-[0.75rem] text-text-muted mb-4 md:mb-6 bg-transparent">
-            Curated Collection
+            คัดสรรมาเพื่อคุณ
           </span>
           
           {/* หัวข้อหลัก */}
           <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] mb-4 text-text-main leading-[1.1] font-medium font-serif">
-            Discover Your<br className="hidden md:block" />Next Favorite<br className="hidden md:block" />Read.
+            ค้นพบหนังสือ<br className="hidden md:block" />ที่คุณจะหลงรัก
           </h1>
-          
+
           {/* คำอธิบาย */}
           <p className="text-sm sm:text-base text-text-muted mb-6 md:mb-8 leading-relaxed max-w-[400px] mx-auto md:mx-0">
-            Immerse yourself in our carefully selected collection of
-            literary masterpieces and contemporary brilliance.
+            สำรวจคอลเลกชันหนังสือคัดสรรหลากหลายแนว ทั้งวรรณกรรมคลาสสิกและหนังสือยอดนิยมร่วมสมัย
           </p>
-          
+
           {/* ปุ่มกด */}
           <Link to="/" className="inline-flex items-center justify-center font-sans font-medium text-[0.85rem] md:text-[0.9rem] cursor-pointer transition-colors border-none py-[0.6rem] px-[1.5rem] bg-brand text-white hover:bg-brand-hover rounded-sm shadow-sm">
-            Explore Now &rarr;
+            สำรวจเลย &rarr;
           </Link>
         </div>
 

@@ -1,32 +1,34 @@
-import { createContext, useContext, useState, useCallback, useEffect } from 'react'
+import { createContext, useContext, useState, useCallback } from 'react'
 import { loginUser, registerUser, logoutUser } from '../services/authService'
 
 // สร้าง Context สำหรับจัดการข้อมูลผู้ใช้งาน (Authentication) ส่วนกลาง
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
+  // useState รับ "ฟังก์ชัน" เป็น initial value ได้
+  // ฟังก์ชันนี้จะถูกเรียกครั้งเดียวตอน component mount เพื่ออ่าน localStorage
+  // ดีกว่าใช้ useEffect เพราะ user จะพร้อมใช้ทันที ไม่มี flash "ยังไม่ได้ login"
+  const [user, setUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('shopter_user')
+      return saved ? JSON.parse(saved) : null
+    } catch {
+      // กรณีข้อมูลใน localStorage เสียหาย ให้ล้างทิ้งและเริ่มใหม่
+      localStorage.removeItem('shopter_user')
+      localStorage.removeItem('shopter_token')
+      return null
+    }
+  })
+
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
   // Drawer State
   const [isAuthDrawerOpen, setIsAuthDrawerOpen] = useState(false)
   const [authMode, setAuthMode] = useState('login') // 'login' or 'register'
-  
-  const isLoggedIn = !!user
 
-  // เมื่อโหลดเว็บครั้งแรก: ดึงข้อมูล user จาก localStorage
-  useEffect(() => {
-    const savedUser = localStorage.getItem('shopter_user')
-    if (savedUser) {
-      try {
-        setUser(JSON.parse(savedUser))
-      } catch {
-        localStorage.removeItem('shopter_user')
-        localStorage.removeItem('shopter_token')
-      }
-    }
-  }, [])
+  // !! แปลงค่าใดๆ เป็น boolean: null → false, object → true
+  const isLoggedIn = !!user
 
   // ── Login ──────────────────────────────────────────────────────────────────
   const login = useCallback(async ({ email, password }) => {
@@ -98,14 +100,14 @@ export function AuthProvider({ children }) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      isLoggedIn, 
-      isLoading, 
-      error, 
-      login, 
-      register, 
-      logout, 
+    <AuthContext.Provider value={{
+      user,
+      isLoggedIn,
+      isLoading,
+      error,
+      login,
+      register,
+      logout,
       clearError,
       isAuthDrawerOpen,
       authMode,

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-// ─── การตั้งค่า API (API Configuration) ──────────────────────────────────
-// เชื่อมกับ Backend ที่ทำงานบน http://localhost:5000/api
+// ─── สร้าง Axios instance ──────────────────────────────────────────────────
+// baseURL อ่านจาก .env (VITE_API_URL) และ fallback เป็น localhost
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
   headers: {
@@ -9,27 +9,16 @@ const api = axios.create({
   },
 })
 
-// ดึงข้อมูลหนังสือทั้งหมดจาก Backend
-export const fetchBooks = async () => {
-  try {
-    const response = await api.get('/books')
-    return response.data
-  } catch (error) {
-    console.error("Error fetching books:", error)
-    throw error
+// ─── Request Interceptor ───────────────────────────────────────────────────
+// ทุก request ที่ออกจาก api instance จะผ่านที่นี่ก่อน
+// ถ้ามี token ใน localStorage จะแนบ Authorization header ให้อัตโนมัติ
+// ทำให้ไม่ต้องเขียน Authorization header ซ้ำในทุก service
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('shopter_token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
   }
-}
-
-// ดึงข้อมูลหนังสือตาม ID
-export const fetchBookById = async (id) => {
-  try {
-    const response = await api.get(`/books/${id}`)
-    // API ส่งค่ากลับมาเป็น Array ให้คืนค่า index 0
-    return response.data
-  } catch (error) {
-    console.error(`Error fetching book with id ${id}:`, error)
-    throw error
-  }
-}
+  return config
+})
 
 export default api
