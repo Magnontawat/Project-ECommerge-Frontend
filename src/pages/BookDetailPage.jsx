@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { fetchBookById } from '../services/api'
+import { fetchBookById } from '../services/bookService'
 
 export default function BookDetailPage() {
   const { id } = useParams()
@@ -32,7 +32,7 @@ export default function BookDetailPage() {
   if (loading) {
     return (
       <main className="min-h-screen py-24 bg-bg-main flex items-center justify-center">
-        <div className="text-text-muted text-lg animate-pulse">Loading book details...</div>
+        <div className="text-text-muted text-lg animate-pulse">กำลังโหลดข้อมูล...</div>
       </main>
     )
   }
@@ -40,8 +40,8 @@ export default function BookDetailPage() {
   if (error || !book) {
     return (
       <main className="min-h-screen py-24 bg-bg-main flex flex-col items-center justify-center gap-6">
-        <h1 className="text-3xl font-serif text-text-main">Book Not Found</h1>
-        <Link to="/" className="text-brand hover:underline">&larr; Back to Home</Link>
+        <h1 className="text-3xl font-serif text-text-main">ไม่พบหนังสือ</h1>
+        <Link to="/" className="text-brand hover:underline">&larr; กลับหน้าหลัก</Link>
       </main>
     )
   }
@@ -52,16 +52,16 @@ export default function BookDetailPage() {
         
         {/* Breadcrumb / Back button */}
         <Link to="/" className="inline-block mb-8 text-[0.85rem] text-text-muted hover:text-text-main transition-colors">
-          &larr; Back to Collection
+          &larr; กลับ
         </Link>
 
         <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start">
           
           {/* Left: Book Cover */}
           <div className="w-full md:w-2/5 shrink-0 bg-[#EEEEEE] flex items-center justify-center p-8 md:p-12 aspect-[2/3] relative">
-            <img 
-              src={book.cover} 
-              alt={`Cover of ${book.title}`} 
+            <img
+              src={book.cover_image_url}
+              alt={`Cover of ${book.title}`}
               className="w-full h-full object-cover shadow-[0_15px_30px_rgba(0,0,0,0.15)]"
             />
           </div>
@@ -69,31 +69,32 @@ export default function BookDetailPage() {
           {/* Right: Book Details */}
           <div className="w-full md:w-3/5 flex flex-col pt-4 md:pt-8">
             <span className="inline-block uppercase tracking-widest text-[0.75rem] text-text-muted mb-4">
-              {book.category}
+              {book.genre}
             </span>
-            
+
             <h1 className="text-3xl md:text-5xl font-serif text-text-main mb-2 leading-tight">
               {book.title}
             </h1>
-            
+
             <p className="text-lg md:text-xl text-text-muted font-sans mb-6">
               by {book.author}
             </p>
-            
+
+            {/* แสดงราคาเริ่มต้นจาก variant แรก — ยังไม่มี UI เลือก variant */}
             <div className="text-2xl font-sans text-text-main mb-8">
-              ${Number(book.price).toFixed(2)}
+              ฿{Number(book.variants?.[0]?.price ?? 0).toFixed(2)}
             </div>
-            
+
             <div className="mb-10 text-text-muted leading-relaxed font-sans max-w-[600px]">
-              {book.description || "No description available for this book."}
+              {book.synopsis || "ยังไม่มีข้อมูลหนังสือเล่มนี้"}
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <button className="px-8 py-3 bg-brand text-white font-sans text-[0.9rem] rounded-sm hover:bg-brand-hover transition-colors shadow-sm">
-                Add to Cart
+                เพิ่มในตะกร้า
               </button>
               <button className="px-8 py-3 border border-border-color text-text-main bg-transparent font-sans text-[0.9rem] rounded-sm hover:bg-[#F0F0F0] transition-colors">
-                Add to Wishlist
+                บันทึกในรายการโปรด
               </button>
             </div>
           </div>

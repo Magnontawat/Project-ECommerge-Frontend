@@ -26,7 +26,7 @@ export default function BookGrid({ books, loading }) {
     return (
       <div className="text-center py-16 text-text-muted">
         <span className="text-4xl md:text-5xl block mb-4">📭</span>
-        <p className="text-sm md:text-base">No books found.</p>
+        <p className="text-sm md:text-base">ยังไม่มีหนังสือในขณะนี้</p>
       </div>
     )
   }

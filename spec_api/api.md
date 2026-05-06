@@ -252,33 +252,35 @@
 
 > **หมายเหตุ:** `type` ต้องไม่ซ้ำกันภายใน 1 หนังสือ และต้องมีอย่างน้อย 1 variant
 
-#### ตัวอย่างการส่งจาก Frontend (JavaScript)
+#### ตัวอย่างการส่งจาก Frontend (วิธีที่ใช้จริงในโปรเจกต์)
+
+Frontend ใช้ `createBook()` จาก `src/services/bookService.js`  
+โดย Authorization header ถูกแนบอัตโนมัติผ่าน Axios interceptor ใน `src/services/api.js`
 
 ```javascript
-const data = new FormData();
-data.append("title", "The Name of the Wind");
-data.append("author", "Patrick Rothfuss");
-data.append("publisher", "DAW Books");
-data.append("publish_year", 2007);
-data.append("genre", "fantasy");
-data.append("synopsis", "เรื่องราวของ Kvothe นักเวทย์ผู้เป็นตำนาน...");
-data.append(
-  "variants",
-  JSON.stringify([
-    { type: "th", price: 350, stock: 100 },
-    { type: "ebook", price: 199, stock: 999 },
-  ]),
-);
-data.append("cover_image", file); // File object จาก <input type="file">
+// src/pages/AddProductPage.jsx
+const data = new FormData()
+data.append("title", form.title)
+data.append("author", form.author)
+data.append("publisher", form.publisher)
+data.append("publish_year", form.publishYear)  // state key ชื่อ publishYear แต่ส่งเป็น publish_year
+data.append("genre", form.genre)
+data.append("synopsis", form.synopsis)
+data.append("variants", JSON.stringify(variants))  // แปลง array → JSON string ก่อน append
+if (coverFile) data.append("cover_image", coverFile)  // File object จาก <input type="file">
 
-const response = await fetch("http://localhost:5000/api/books", {
-  method: "POST",
-  headers: {
-    Authorization: `Bearer ${token}`,
-    // ไม่ต้องใส่ Content-Type เอง — browser จะ set multipart boundary ให้อัตโนมัติ
-  },
-  body: data,
-});
+await createBook(data)  // createBook ใน bookService.js จัดการ header และ token ให้อัตโนมัติ
+```
+
+```javascript
+// src/services/bookService.js — createBook implementation
+export async function createBook(formData) {
+  const response = await api.post('/books', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+    // Authorization: Bearer <token> ถูกแนบโดย interceptor ใน api.js อัตโนมัติ
+  })
+  return response.data
+}
 ```
 
 ### 📤 Response `201 Created`
@@ -378,3 +380,32 @@ Backend ควรใช้ **Multer** รับไฟล์จาก `multipart/
 | **Cloud storage** | อัปโหลดไปยัง S3 / Cloudinary แล้วส่ง URL เต็มกลับ                               |
 
 Frontend ต้องการเพียง `cover_image_url` (string URL) เพื่อแสดงรูปในหน้าเว็บ
+
+---
+
+## 📋 Frontend Field Mapping
+
+ตารางนี้สรุป field ที่ Frontend ใช้จริงสำหรับแต่ละ component เพื่อให้ Backend ส่งข้อมูลได้ถูกต้อง
+
+### `GET /api/books` และ `GET /api/books/:id` — Fields ที่ Frontend ใช้
+
+| Frontend Component | Field ที่ใช้ | ตรงกับ API field |
+|---|---|---|
+| `BookCard.jsx` | `book.cover_image_url` | `cover_image_url` ✅ |
+| `BookCard.jsx` | `book.variants[0].price` | `variants[].price` ✅ |
+| `BookDetailPage.jsx` | `book.cover_image_url` | `cover_image_url` ✅ |
+| `BookDetailPage.jsx` | `book.genre` | `genre` ✅ |
+| `BookDetailPage.jsx` | `book.synopsis` | `synopsis` ✅ |
+| `BookDetailPage.jsx` | `book.variants[0].price` | `variants[].price` ✅ |
+
+> **หมายเหตุ:** BookDetailPage ยังไม่มี UI เลือก variant — แสดงราคาจาก `variants[0]` เป็น default
+
+---
+
+## 📅 Changelog
+
+| วันที่ | รายการ |
+|---|---|
+| 2026-05-07 | สร้างไฟล์ spec เวอร์ชันแรก |
+| 2026-05-07 | ตรวจสอบ spec กับ code จริง — พบและแก้ไข: `BookCard` และ `BookDetailPage` ใช้ field ผิด (`cover`, `category`, `description`, `price` flat) แก้เป็น `cover_image_url`, `genre`, `synopsis`, `variants[].price` |
+| 2026-05-07 | อัปเดต JS example ใน Create Book ให้ตรงกับ code จริง (ใช้ `createBook()` + Axios interceptor แทน raw `fetch`) |

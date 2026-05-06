@@ -123,7 +123,7 @@ function UserDropdown({ user, logout }) {
                     d="M12 4v16m8-8H4"
                   />
                 </svg>
-                Add Product
+                เพิ่มหนังสือ
               </button>
               <div className="border-t border-border-color my-1" />
               <button
@@ -145,7 +145,7 @@ function UserDropdown({ user, logout }) {
                     d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
                   />
                 </svg>
-                Logout
+                ออกจากระบบ
               </button>
             </>
           ) : (
@@ -173,7 +173,7 @@ function UserDropdown({ user, logout }) {
                     d="M5.121 17.804A8.966 8.966 0 0112 15c2.21 0 4.23.798 5.879 2.113M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                Profile
+                โปรไฟล์
               </button>
               <div className="border-t border-border-color my-1" />
               <button
@@ -195,7 +195,7 @@ function UserDropdown({ user, logout }) {
                     d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
                   />
                 </svg>
-                Logout
+                ออกจากระบบ
               </button>
             </>
           )}
@@ -262,13 +262,13 @@ export default function Navbar() {
             to="/"
             className="text-[0.9rem] text-text-muted hover:text-text-main transition-colors"
           >
-            Best Sellers
+            หนังสือขายดี
           </Link>
           <Link
             to="/"
             className="text-[0.9rem] text-text-muted hover:text-text-main transition-colors"
           >
-            New Releases
+            ใหม่ล่าสุด
           </Link>
         </nav>
 
@@ -282,13 +282,13 @@ export default function Navbar() {
                 onClick={openLogin}
                 className="text-[0.9rem] text-text-muted hover:text-text-main transition-colors cursor-pointer"
               >
-                Login
+                เข้าสู่ระบบ
               </button>
               <button
                 onClick={openRegister}
                 className="inline-flex items-center justify-center font-sans font-normal text-[0.9rem] cursor-pointer transition-colors border-none py-[0.5rem] px-[1.2rem] bg-brand text-white hover:bg-brand-hover rounded-sm"
               >
-                Register
+                สมัครสมาชิก
               </button>
             </>
           )}
@@ -311,14 +311,14 @@ export default function Navbar() {
               className="text-text-main font-medium py-2 border-b border-gray-100"
               onClick={() => setIsMenuOpen(false)}
             >
-              Best Sellers
+              หนังสือขายดี
             </Link>
             <Link
               to="/"
               className="text-text-main font-medium py-2 border-b border-gray-100"
               onClick={() => setIsMenuOpen(false)}
             >
-              New Releases
+              ใหม่ล่าสุด
             </Link>
 
             <div className="flex flex-col gap-3 mt-2">
@@ -380,7 +380,7 @@ export default function Navbar() {
                           d="M12 4v16m8-8H4"
                         />
                       </svg>
-                      Add Product
+                      เพิ่มหนังสือ
                     </button>
                   ) : (
                     // ── Mobile User ──
@@ -404,7 +404,7 @@ export default function Navbar() {
                           d="M5.121 17.804A8.966 8.966 0 0112 15c2.21 0 4.23.798 5.879 2.113M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                         />
                       </svg>
-                      Profile
+                      โปรไฟล์
                     </button>
                   )}
 
@@ -428,7 +428,7 @@ export default function Navbar() {
                         d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
                       />
                     </svg>
-                    Logout
+                    ออกจากระบบ
                   </button>
                 </>
               ) : (
@@ -440,7 +440,7 @@ export default function Navbar() {
                     }}
                     className="text-center text-text-main py-2 border border-border-color rounded-sm cursor-pointer"
                   >
-                    Login
+                    เข้าสู่ระบบ
                   </button>
                   <button
                     onClick={() => {
@@ -449,7 +449,7 @@ export default function Navbar() {
                     }}
                     className="text-center text-white bg-brand py-2 rounded-sm cursor-pointer"
                   >
-                    Register
+                    สมัครสมาชิก
                   </button>
                 </>
               )}
