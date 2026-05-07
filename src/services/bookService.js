@@ -30,7 +30,7 @@ export async function createBook(formData) {
     const response = await api.post('/books', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
-    return response.data
+    return response.data  
   } catch (error) {
     const message = error.response?.data?.message || 'เกิดข้อผิดพลาดในการเพิ่มหนังสือ'
     throw new Error(message)
